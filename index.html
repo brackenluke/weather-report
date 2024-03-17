@@ -20,34 +20,38 @@
         <h1>Weather Report</h1>
         <div id="currentDay" class="text-center"></div>
     </header>
-    <div class="container" style="max-width: 90%;">
+    <div class="container-fluid content" style="max-width: 90%;">
         <div class="row">
-            <div class="col-sm-12 col-lg-4 bg-light">
+            <div class="col-lg-10 bg-light">
                 <div>
-                    <p><h2>City Search</h2></p>
+                    <p>
+                    <h2>City Search</h2>
+                    </p>
                 </div>
-                <div class="input-group mb-3">
-                    <input id="city-input" type="text" class="form-control"
-                    placeholder="Enter City Name" aria-label="Enter city name">
-                    
-                    <div class="input-group-append">
+                <div class="mb-3">
+                    <input id="city-input" type="text" class="form-control" placeholder="Enter City Name"
+                        aria-label="Enter city name">
+
+                    <div class="">
                         <button class="btn btn-primary" type="button" id="search-button">
                             <i class="fas fa-search"></i>
                         </button>
-                        
+
                     </div>
 
                     <button class="btn md-3" type="button" id="clear-history">Clear History</button>
 
-                    <p><h6>Recently searched cities:</h6></p>
+                    <p>
+                    <h6>Recently searched cities:</h6>
+                    </p>
 
                     <ul class="is-hidden" style="list-style: none;" id="historyList"></ul>
                 </div>
                 <div class="col-sm-12 col-lg-8">
                     <div class="row mr-0">
-                        <div class="col-sm-12 m-3 rounded">
+                        <div class="col-sm-12 rounded">
                             <div class="row">
-                                <div class="col-sm-12 col-lg-8">
+                                <div class="col-sm-12 col-lg-6">
                                     <span id="city-name" class="city-name align-middle"></span>
                                 </div>
                             </div>
@@ -58,29 +62,28 @@
                                 <div id="cityList">
                                     <h3>City Name:</h3>
                                 </div>
-                                
+
                                 <div class="col-md-4"></div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                        <div class="col-10 list">
-                            <h3>5-Day Forecast</h3>
-                        </div>
+                    <div class="col-10 list">
+                        <h3>5-Day Forecast</h3>
                     </div>
-                    <div class="row" id="days"></div>
+                </div>
+                <div class="row" id="days"></div>
             </div>
         </div>
     </div>
-    <nav class="footer">
-        <footer class="text-center">
-            <h5>Weather Report</h5>
-            <div class="footer-text">
-                <a href="https://github.com/brackenluke/weather-report">GitHub Repo</a>
-            </div>
-        </footer>
-    </nav>
+
+    <footer class="text-center">
+        <h5>Weather Report</h5>
+        <div class="footer-text">
+            <a href="https://github.com/brackenluke/weather-report">GitHub Repo</a>
+        </div>
+    </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
     <script src="./assets/script.js"></script>

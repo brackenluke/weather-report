@@ -1,3 +1,12 @@
+/* */
+html,body,.container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
 /* This controls the Header Text */
 .header-text {
     font-size: small;
@@ -6,16 +15,15 @@
 }
 
 /* This controls the footer bar */
-.footer {
+footer {
     background-color: #35d673a4;
     height: 10%;
     border-top: solid;
     border-top-color: black;
     border-top-width: 5px;
     text-align: center;
-    position: fixed;
-    bottom: 0;
     width: 100%;
+    margin-top: auto;
 }
 
 /* This controls the footer text */
@@ -51,11 +59,10 @@
 
 /* This controls the temperature style */
 .col-12.box {
-    background: whitesmoke;
     border-radius: 10px;
-    width: 760px;
+    width: 568px;
     margin-top: -2px;
-    margin-left: -10px;
+    margin-left: 10px;
 }
 
 /* This controls the temperature font style */
@@ -88,7 +95,7 @@ li {
     margin-right: 50%;
 }
 
-@media only screen and (max-width:992px) {
+/* @media only screen and (max-width:992px) {
     .navbar .header-text{       
       padding-bottom: 0;
       border-bottom: solid;   
@@ -121,4 +128,11 @@ li {
     }
     #days{
     margin-left: -25px;
+    } */
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
     }
