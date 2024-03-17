@@ -1,16 +1,18 @@
 $(window).on('load', function () {
     // currentLocation();
-    checkLocalStorage();
+    checkLocal();
 });
-// API Key for all weather data 
+
+// ** API Key for all of the weather data **
 var APIKey = "09e0d7e534e41ce68ba5f2577fa5f760";
 var q = "";
 var now = moment();
-//Date and time formate for header
+
+// sets the Date and time format for header
 var currentDate = now.format('MMMM Do YYYY || h:mm a');
 $("#currentDay").text(currentDate);
 
-//Setting the click function at ID search button
+// Function that searchs onclick
 $("#search-button").on("click", function (event) {
     // Preventing the button from trying to submit the form
     event.preventDefault();
@@ -19,12 +21,13 @@ $("#search-button").on("click", function (event) {
     if (q === '') {
         return alert('Please Enter Valid City Name ! ');
     }
-    getWeather(q);
+    getDetails(q);
 
-    saveToLocalStorage(q);
+    saveLocal(q);
 });
-// Function to create Button for searched city 
-function createRecentSearchBtn(q) {
+
+// Function to create Button for searched cities
+function createBtn(q) {
     var newLi = $("<li>")
     var newBtn = $('<button>');
     //Adding Extra ID for Button to stop Creating Duplicate Button on Click
@@ -36,19 +39,20 @@ function createRecentSearchBtn(q) {
     //setting click function to prevent duplicate button
     $("#extraBtn").on("click", function () {
         var newQ = $(this).text();
-        getWeather(newQ);
+        getDetails(newQ);
     });
 }
-//converting temperature F to Celsius 
+
+// Function that converts temperature F to C
 function convertToC(fahrenheit) {
     var fTempVal = fahrenheit;
     var cTempVal = (fTempVal - 32) * (5 / 9);
     var celcius = Math.round(cTempVal * 10) / 10;
     return celcius;
-  }
+}
 
-//Function to get weather details 
-function getWeather(q) {
+// Function to get weather details 
+function getDetails(q) {
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + q + "&units=imperial&appid=" + APIKey;
     $.ajax({
         // gets the current weather info
@@ -57,30 +61,31 @@ function getWeather(q) {
         error: (err => { //If API through error then alert 
             alert("Your city was not found. Check your spelling or enter a city code")
             return;
-          })
+        })
     }).then(function (response) {
         console.log(response)
         //to avoid repeating city information on button click 
         $(".cityList").empty()
         $("#days").empty()
         var celcius = convertToC(response.main.temp);
-        var cityMain1 = $("<div col-12>").append($("<p><h2>" + response.name + ' (' + currentDate + ')' + "</h2><p>"));
-        var image = $('<img class="imgsize">').attr('src', 'http://openweathermap.org/img/w/' + response.weather[0].icon + '.png');        
+        var cityMainOne = $("<div col-12>").append($("<p><h2>" + response.name + ' (' + currentDate + ')' + "</h2><p>"));
+        var image = $('<img class="imgsize">').attr('src', 'http://openweathermap.org/img/w/' + response.weather[0].icon + '.png');
         var degreeMain = $('<p>').text('Temperature : ' + response.main.temp + ' °F (' + celcius + '°C)');
         var humidityMain = $('<p>').text('Humidity : ' + response.main.humidity + '%');
-        var windMain = $('<p>').text('Wind Speed : ' + response.wind.speed + 'MPH');       
+        var windMain = $('<p>').text('Wind Speed : ' + response.wind.speed + 'MPH');
         var uvIndexcoord = '&lat=' + response.coord.lat + '&lon=' + response.coord.lon;
         var cityId = response.id;
 
         displayUVindex(uvIndexcoord);
-        displayForecast(cityId);
+        displayWeather(cityId);
 
-        cityMain1.append(image).append(degreeMain).append(humidityMain).append(windMain);
+        cityMainOne.append(image).append(degreeMain).append(humidityMain).append(windMain);
         $('#cityList').empty();
-        $('#cityList').append(cityMain1);
+        $('#cityList').append(cityMainOne);
     });
 }
-//function for UV Index
+
+// Function that gets the UV index
 function displayUVindex(uv) {
     $.ajax({ // gets the UV index info
         url: "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + uv,
@@ -89,11 +94,12 @@ function displayUVindex(uv) {
         var UVIndex = $("<p><span>");
         UVIndex.attr("class", "badge badge-danger");
         UVIndex.text(response.value);
-        $("#cityList").append('UV-Index : ').append(UVIndex);       
+        $("#cityList").append('UV-Index : ').append(UVIndex);
     });
 }
-//function to Display 5 Day forecast
-function displayForecast(c) {
+
+// Function that displays the forecast
+function displayWeather(c) {
     $.ajax({ // gets the 5 day forecast API
         url: "https://api.openweathermap.org/data/2.5/forecast?id=" + c + "&units=imperial&APPID=" + APIKey,
         method: "GET",
@@ -105,32 +111,21 @@ function displayForecast(c) {
                 console.log(arrayList[i]);
                 var celcius = convertToC(arrayList[i].main.temp);//converting F to Celsius 
                 var cityMain = $('<div>');
-                cityMain.addClass('col forecast bg-primary text-white ml-3 mb-3 rounded>');
+                cityMain.addClass('col forecast bg-success text-white ml-3 mb-3 rounded>');
                 var date5 = $("<h5>").text(response.list[i].dt_txt.split(" ")[0]);
                 var image = $('<img>').attr('src', 'http://openweathermap.org/img/w/' + arrayList[i].weather[0].icon + '.png');
-                var degreeMain = $('<p>').text('Temp : ' + arrayList[i].main.temp + ' °F ('+ celcius + '°C)');               
+                var degreeMain = $('<p>').text('Temp : ' + arrayList[i].main.temp + ' °F (' + celcius + '°C)');
                 var humidityMain = $('<p>').text('Humidity : ' + arrayList[i].main.humidity + '%');
-                var windMain = $('<p>').text('Wind Speed : ' + arrayList[i].wind.speed + 'MPH');                
+                var windMain = $('<p>').text('Wind Speed : ' + arrayList[i].wind.speed + 'MPH');
                 cityMain.append(date5).append(image).append(degreeMain).append(humidityMain).append(windMain);
                 $('#days').append(cityMain);
             }
         }
     });
 };
-// Display automatic Current Locaion 
-// function currentLocation() {
-//     $.ajax({
-//         url: "https://freegeoip.app/json/",
-//         method: "GET",
-//     }).then(function (response) {
-//         q = response.city || 'exton';
-//         console.log(q);
-//         getWeather(q);
-//     });
-// };
 
-// Function to get data store in Locaal Storage 
-function checkLocalStorage() {
+// Function that gets local storage
+function checkLocal() {
     var storedData = localStorage.getItem('queries');
     var dataArray = [];
     if (!storedData) {
@@ -139,12 +134,12 @@ function checkLocalStorage() {
         storedData.trim();
         dataArray = storedData.split(',');
         for (var i = 0; i < dataArray.length; i++) {
-            createRecentSearchBtn(dataArray[i]);
+            createBtn(dataArray[i]);
         }
     }
 };
-// Function to Set data in Local storage
-function saveToLocalStorage(q) {
+// Function that saves to local storage
+function saveLocal(q) {
     var data = localStorage.getItem('queries');
     if (data) {
         console.log(data, q)
@@ -156,11 +151,11 @@ function saveToLocalStorage(q) {
     if (data.indexOf(q) === -1) {
         data = data + ',' + q;
         localStorage.setItem('queries', data);
-        createRecentSearchBtn(q);
+        createBtn(q);
     }
 }
 
-//added clear histor fuction to clear searched city list
+// Function that clears history onclick
 $("#clear-history").on("click", function (event) {
     $("#historyList").empty();
 });

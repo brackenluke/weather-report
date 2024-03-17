@@ -29,21 +29,19 @@
                     </p>
                 </div>
                 <div class="mb-3">
-                    <input id="city-input" type="text" class="form-control" placeholder="Enter City Name"
-                        aria-label="Enter city name">
+                    <input id="city-input" type="text" class="form-control" placeholder="Enter City Name" aria-label="Enter city name">
 
-                    <div class="">
-                        <button class="btn btn-primary" type="button" id="search-button">
+                    <div class="p-2">
+                        <button class="btn-success" type="button" id="search-button">
                             <i class="fas fa-search"></i>
                         </button>
 
+                        <button class="btn md-3" type="button" id="clear-history">Clear History</button>
                     </div>
 
-                    <button class="btn md-3" type="button" id="clear-history">Clear History</button>
+                    
 
-                    <p>
-                    <h6>Recently searched cities:</h6>
-                    </p>
+                    <p><h6>Recently searched cities:</h6></p>
 
                     <ul class="is-hidden" style="list-style: none;" id="historyList"></ul>
                 </div>
